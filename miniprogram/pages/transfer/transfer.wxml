@@ -1,0 +1,2 @@
+<!--miniprogram/pages/transfer/transfer.wxml-->
+<text>{{docid}}</text>

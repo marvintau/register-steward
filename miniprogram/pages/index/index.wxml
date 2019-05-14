@@ -1,0 +1,63 @@
+<view class="container">
+
+    <!-- 登录按钮 -->
+    <view class="section">
+        <button 
+            open-type="getUserInfo" 
+            class="avatar"
+            style="background-image: url({{userInfo.avatarUrl}})"
+        ></button>
+
+        <block wx:if="{{logged && userInfo.nickName}}">
+            <text>[{{userInfo.nickName}}] 管理的报名</text>
+        </block>
+
+        <block wx:else>
+            <view>
+            <button
+                class="login-button"
+                open-type='getUserInfo'
+                bindgetuserinfo='onReceivedUserInfo'
+            >登 录</button>
+            </view>
+        </block>
+    </view>
+
+    <!-- 显示 -->
+    <block wx:if="{{logged && userInfo.nickName}}">
+        <text class="info-label">
+        您随时可以更改尚未发布的报名表单。对于已经发布的报名，您必须先选择结束报名，才能手动删除报名表单。
+        </text>
+        <scroll-view class="section" style="height:400rpx;" scroll-y="true">
+            <block wx:for="{{userDocs}}">
+                <view class="form-entry">
+                    <view style="flex-grow: 2;">
+                        <text style="font-weight: bold; display: block;">{{item.formName}}</text>
+                        <text style="font-size: 80%; letter-spacing: 0.1em;">{{item.formDesc}}</text>
+                    </view>
+                    <block wx:if="{{!item.isPublished}}">
+                        <button
+                            style="margin-left: 5rpx;"
+                            data-docid="{{item._id}}"
+                            bindtap="onOpenExistingSignup"
+                        > 编辑 </button>
+                    </block>
+                    <block wx:if="{{item.isPublished}}">
+                        <button
+                            style="margin-left: 5rpx;"
+                            data-docid="{{item._id}}"
+                            bindtap="onOpenPublishedSignup"
+                        > 管理 </button>
+                    </block>
+                </view>
+            </block>
+        </scroll-view>
+        <view class="section">
+            <button bindtap='onCreatingNewSignup'>创建新的报名</button>
+        </view>
+    </block>
+    <block wx:else>
+        <text class="info-label">您需要先登录才能看到您所管理的报名</text>
+    </block>
+
+</view>

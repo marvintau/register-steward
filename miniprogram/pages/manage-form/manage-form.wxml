@@ -1,0 +1,40 @@
+<view class="container">
+    <text class="title">管理报名</text>
+
+    <view class="section">
+        <view style="display:block; flex-direction: column; flex-grow: 2;">
+            <text class="info-label" style="display: block; font-size: 120%;">{{formName}}</text>
+            <text class="info-label" style="display: block;">{{formDesc}}</text>
+        </view>
+        <view class="info-label" style="display:block; flex-direction: column; ">
+            <text style="margin:7rpx; display: block;">当前报名总人数：{{signupAmount}} 人</text>
+        </view>
+    </view>
+
+    <button style="margin: 30rpx 0; width: 96%;"bindtap="viewSignups">查看已收集的报名</button>
+    <button style="margin: 30rpx 0; width: 96%;"bindtap="generateSignupLink">
+        <text wx:if="{{!isShowCode}}">分享报名表</text>
+        <text wx:elif="{{!isWxaDone}}">稍等，正在生成小程序码</text>
+        <text wx:else>收起小程序码</text>
+    </button>
+    <block style="text-align:center;" wx:if="{{isShowCode}}">
+    <image src="{{wxacode}}"
+        bindlongpress="saveSignupImage"
+        style="width:400rpx; height:400rpx;" />
+    <text wx:if="{{!isDownloaded}}">长按保存这个二维码</text>
+    <text wx:else>二维码已保存</text>
+    </block>
+    <button style="margin: 30rpx 0; width: 96%;"bindtap="generateTransferLink">
+        <text wx:if="{{!isShowTransCode}}"> 管理员转让 </text>
+        <text wx:else> 收起小程序码 </text>
+    </button>
+    <block wx:if="{{isShowTransCode}}">
+    <image src="{{transfercode}}"
+        style="width:400rpx; height:400rpx;" />
+    </block>
+    <button style="margin: 30rpx 0; width: 96%;"bindtap="export">
+        <text>导出Excel表格</text>
+        <text style="font-size:60%"> (正在紧张开发中)</text>
+    </button>
+
+</view>

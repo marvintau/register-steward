@@ -1,0 +1,110 @@
+<view wx:if="{{isTransfer}}" class="container">
+
+    <!-- 登录及获取用户基本信息（主要是openID） -->
+    <view class="section">
+        <button 
+            open-type="getUserInfo" 
+            class="avatar"
+            style="background-image: url({{userInfo.avatarUrl}})"
+        ></button>
+        <block wx:if="{{!logged}}">
+            <button
+                class="login-button"
+                open-type='getUserInfo'
+                bindtap="onTappedLogin"
+                bindgetuserinfo='onReceivedUserInfo'
+            >登录</button>
+        </block>
+        <block wx:else>
+            <text>你好啊，{{userInfo.nickName}}</text>
+        </block>
+    </view>
+
+    <block wx:if="{{logged}}">
+        <text style="margin:20rpx;font-size:120%; font-weight: bold;">
+        {{formName}}
+        </text>
+        <button style="margin:20rpx;"
+        bindtap="transferAdmin">好的，这个报名归我管了</button>
+    </block>
+
+</view>
+
+<view wx:else class="container">
+
+    <!-- 登录及获取用户基本信息（主要是openID） -->
+    <view class="section">
+        <button 
+            open-type="getUserInfo" 
+            class="avatar"
+            style="background-image: url({{userInfo.avatarUrl}})"
+        ></button>
+        <block wx:if="{{!logged}}">
+            <button
+                class="login-button"
+                open-type='getUserInfo'
+                bindtap="onTappedLogin"
+                bindgetuserinfo='onReceivedUserInfo'
+            >登录后开始报名</button>
+        </block>
+        <block wx:else>
+            <text>你好啊，{{userInfo.nickName}}</text>
+        </block>
+    </view>
+
+    <block wx:if='{{isDuplicate}}'>
+        <text style="margin: 10rpx; font-size:90%">
+        哎呀，其实您已经报过名了。请耐心等候相关工作人员联系您，并且关注活动的最新通知。现在您可以关掉这个页面了。
+        </text>
+    </block>
+    <block wx:else>
+    <form bindsubmit='onSubmit'>
+        <block wx:if="{{logged}}">
+            <view class="container">
+                <text class="title">{{formName}}</text>
+                <view class="reg-form" wx:for="{{doc}}">
+
+                    <!-- 一般的输入框 -->
+                    <view class="input-group" wx:if="{{item.type=='input'}}">
+                        <text class="input-label">{{item.label}}</text>
+                        <input
+                            name="{{item.name}}"
+                            type='{{item.inputType}}'
+                            confirm-type='{{item.inputType}}'
+                            placeholder='{{item.placeholder}}'
+                        />
+                    </view>
+
+                    <!-- Radio输入 (单选) -->
+                    <view class="input-group" wx:elif="{{item.type=='radio'}}">
+                        <text class="input-label">{{item.label}}</text>
+                        <radio-group name="{{item.name}}" class="radio-group">
+                            <block wx:for="{{item.options}}" wx:for-item="option">
+                                <label class='radio'><radio value='{{option}}' />{{option}}</label>
+                            </block>
+                        </radio-group>
+                    </view>
+
+                    <!-- checkbox输入 (多选) -->
+                    <view class="input-group" wx:elif="{{item.type=='checkbox'}}">
+                        <text class="input-label">{{item.label}}</text>
+                        <checkbox-group name="{{item.name}}" class="radio-group">
+                            <block wx:for="{{item.options}}" wx:for-item="option">
+                                <label class='checkbox'><radio value='{{option}}' />{{option}}</label>
+                            </block>
+                        </checkbox-group>
+                    </view>
+
+                    <view class="input-group desc-text" wx:else>
+                        <text>{{item}}</text>
+                    </view>
+                </view>
+
+                <view class="button-group">
+                    <button form-type="submit">填好了，报名</button>
+                </view>
+            </view>
+        </block>
+    </form>
+    </block>
+</view>

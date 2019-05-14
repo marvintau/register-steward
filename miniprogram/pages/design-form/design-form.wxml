@@ -1,0 +1,100 @@
+<!--miniprogram/pages/design-form/design-form.wxml-->
+<view class="container">
+
+<block wx:if="{{!isFormNamed}}">
+    <form bindsubmit='onSubmitName'>
+        <view class="reg-form">
+            <view class="input-group" style="width: 100%;">
+                <text class="input-label">新建报名项目名称</text>
+                <input name="formName" placeholder='表单名称'/>
+            </view>
+            <view class="input-group" style="width: 100%;">
+                <text class="input-label">描述</text>
+                <textarea name="formDesc" placeholder='表单描述'/>
+            </view>
+            <view class="input-group" style="width: 100%;">
+                <text class="input-label">报名截止日期</text>
+                  <picker
+                    mode="date"
+                    value="{{expireDate}}"
+                    start="2015-09-01"
+                    end="2017-09-01"
+                    bindchange="onDateChange"
+                  >
+                    <view class="picker">
+                    当前选择日期： {{expireDate}}
+                    </view>
+                </picker>
+            </view>
+        </view>
+        <view class="button-group">
+            <button bindtap="onCancelName">返 回</button>
+            <button form-type="submit">确 定</button>
+        </view>
+    </form>
+</block>
+
+
+<block wx:else>
+    <block wx:if="{{isEditingJSON}}">
+        <form bindsubmit='saveEditing'>
+            <view style="margin:40rpx 0; padding-top:10rpx; border-top: 0.5rpx solid;">
+                <textarea
+                    style="flex-grow:2; width:97.5%;"
+                    maxlength='-1'
+                    name="element"
+                    value="{{signups[current].memo}}"
+                    placeholder='此处添加表单元素JSON'
+                />
+                <button style="margin-top: 10rpx;" form-type="submit">添加</button>
+            </view>
+        </form>
+    </block>
+
+    <block wx:else>
+        <view class="reg-form" wx:for="{{designDoc}}">
+
+            <!-- 一般的输入框 -->
+            <view class="input-group" wx:if="{{item.type=='input'}}">
+                <text class="input-label">{{item.label}}</text>
+                <input
+                    name="{{item.name}}"
+                    type='{{item.inputType}}'
+                    confirm-type='{{item.inputType}}'
+                    placeholder='{{item.placeholder}}'
+                />
+            </view>
+
+            <!-- Radio输入 (单选) -->
+            <view class="input-group" wx:elif="{{item.type=='radio'}}">
+                <text class="input-label">{{item.label}}</text>
+                <radio-group name="{{item.name}}" class="radio-group">
+                    <block wx:for="{{item.options}}" wx:for-item="option">
+                        <label class='radio'><radio value='{{option}}' />{{option}}</label>
+                    </block>
+                </radio-group>
+            </view>
+
+            <!-- checkbox输入 (多选) -->
+            <view class="input-group" wx:elif="{{item.type=='checkbox'}}">
+                <text class="input-label">{{item.label}}</text>
+                <checkbox-group name="{{item.name}}" class="radio-group">
+                    <block wx:for="{{item.options}}" wx:for-item="option">
+                        <label class='checkbox'><radio value='{{option}}' />{{option}}</label>
+                    </block>
+                </checkbox-group>
+            </view>
+
+            <view class="input-group desc-text" wx:else>
+                <text>{{item}}</text>
+            </view>
+        </view>
+    </block>
+
+    <view class="button-group">
+        <button bindtap="toggleEditing">编辑JSON</button>
+        <button bindtap="onSubmitDesign">保存</button>
+        <button bindtap="onPublish">保存并发布</button>
+    </view>
+</block>
+</view>
