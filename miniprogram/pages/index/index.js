@@ -31,6 +31,17 @@ Page({
                     userInfo: Object.assign({}, this.data.userInfo, {openid: res.result.openid}),
                     logged: true
                 })
+
+                db.collection('owners')
+                  .where({ ownerID: res.result.openid })
+                  .get().then(res => {
+                      Promise.all(res.data.map(e => db.collection('designDocs').doc(e.docid).get().then(res => res.data)))
+                      .then(res =>{
+                          this.setData({userDocs: res})
+                      });
+                    
+                  })
+
             })
             .catch(err => {
                 console.error('[云函数] [login] 调用失败', err)
@@ -49,12 +60,14 @@ Page({
     },
 
     onShow: function(){
-        db.collection('designDocs')
+      db.collection('owners')
         .where({ ownerID: this.data.userInfo.openid })
         .get().then(res => {
-            console.log("onshow", this.data.userInfo.openid);
-            console.log(res);
-            this.setData({userDocs : res.data});
+          Promise.all(res.data.map(e => db.collection('designDocs').doc(e.docid).get().then(res => res.data)))
+            .then(res => {
+              this.setData({ userDocs: res })
+            });
+
         })
     },
 

@@ -1,72 +1,141 @@
+import promisify from "../../lib/promise.js";
+
+const db = wx.cloud.database();
+
+let getUserInfo = promisify(wx.getUserInfo),
+  getSetting = promisify(wx.getSetting),
+  authorize = promisify(wx.authorize),
+  login = promisify(wx.login),
+  cloudCall = promisify(wx.cloud.callFunction);
+  
 // miniprogram/pages/transfer/transfer.js
 Page({
 
-    /**
-     * 页面的初始数据
-     */
-    data: {
-        docid: ""
-    },
+  /**
+   * Page initial data
+   */
+  data: {
+    userInfo: { avatarUrl: './user-unlogin.png' },
+    logged: false
+  },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function (options) {
-        db.collection('designDocs').where({
-            pageLinkID: options.e
-        }).get().then(res => {
-            this.setData({
-                docid: res.data[0]._id
-            })
+
+  /**
+   * Lifecycle function--Called when page load
+   */
+  onLoad: function (query) {
+
+    const scene = decodeURIComponent(query.scene);
+
+    console.log("transfer", scene)
+    db.collection("designDocs").where({ pageLinkID: scene }).get()
+      .then(res => {
+        let doc = res.data[0];
+        console.log(doc);
+        this.setData({
+          formName: doc.formName,
+          doc: doc.designDoc,
+          docid: doc._id,
+        });
+      }).catch(err => {
+        console.log("transfer error", err);
+      })
+
+  },
+
+  /**
+   * Lifecycle function--Called when page is initially rendered
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * Lifecycle function--Called when page show
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * Lifecycle function--Called when page hide
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * Lifecycle function--Called when page unload
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * Page event handler function--Called when user drop down
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * Called when page reach bottom
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * Called when user click on the top right corner to share
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  onReceivedUserInfo: function (res) {
+    if (res.detail.errMsg === "getUserInfo:ok") {
+      this.setData({ userInfo: JSON.parse(res.detail.rawData) })
+      console.log(JSON.parse(res.detail.rawData));
+      wx.cloud.callFunction({ name: 'login', data: {} })
+        .then(res => {
+          let openid = { openid: res.result.openid };
+          this.setData({
+            userInfo: Object.assign({}, this.data.userInfo, openid),
+            logged: true
+          });
+
         })
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function () {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function () {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
+        .catch(err => {
+          console.error('[云函数] [login] 调用失败', err)
+        })
 
     }
+  },
+
+  transferAdmin: function () {
+    db.collection('owners').where({
+      ownerID: this.data.userInfo.openid
+    }).get().then(res => {
+        if (res.data.length === 0){
+            db.collection('owners')
+            .add({
+                data: {
+                  ownerID: this.data.userInfo.openid,
+                  docid: this.data.docid
+                }
+            }).then(res => {
+                wx.navigateTo({
+                  url: '/pages/index/index'
+                })
+            })
+        } else {
+            console.log("you've already the admin")
+            wx.navigateTo({
+              url: '/pages/index/index'
+            })
+        }
+    })
+ 
+  }
+
 })

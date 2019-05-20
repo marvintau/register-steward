@@ -1,4 +1,4 @@
-<view style="margin: 10rpx; font-size: 90%;">
+<view class="container">
     <view style="border-bottom: 0.5rpx solid; margin-bottom:20rpx; padding-bottom:10rpx;">
         <text class="info-label">第 {{current+1}}/{{signups.length}} 个</text>
     </view>
@@ -17,20 +17,11 @@
         </view>
     </view>
 
-    <form bindsubmit='onSubmitMemo'>
-        <view style="margin:40rpx 0; padding-top:10rpx; border-top: 0.5rpx solid;">
-            <text class="input-label">管理员备注</text>
-            <textarea
-                style="flex-grow:2; width:97.5%;"
-                name="memo"
-                value="{{signups[current].memo}}"
-            />
-        </view>
-        <view class="button-group">
-            <button bindtap="prevSignup">上一个</button>
-            <button form-type="submit">保存</button>
-            <button bindtap="nextSignup">下一个</button>
-        </view>
+    <view class="button-group">
+        <button bindtap="prevSignup">上一个</button>
+        <!-- <button form-type="submit">保存</button> -->
+        <button bindtap="nextSignup">下一个</button>
+    </view>
 
-    </form>
+    <!-- </form> -->
 </view>

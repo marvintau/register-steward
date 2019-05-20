@@ -15,43 +15,37 @@ Page({
      */
     data: {
         userInfo: { avatarUrl: './user-unlogin.png' },
-        logged: false,
-        isTransfer : false
+        logged: false
     },
 
     /**
      * Lifecycle function--Called when page load
      */
-    onLoad: function (options) {
-        if(options.t){
-            db.collection("designDocs").where({ pageLinkID: options.t }).get()
-                .then(res => {
-                    let doc = res.data[0];
-                    this.setData({
-                        formName: doc.formName,
-                        docid: doc._id,
-                        isTransfer : true
-                    });
-                })
+    onLoad: function (query) {
 
-        } else if (options.e) {
-            db.collection("designDocs").where({pageLinkID: options.e}).get()
-            .then(res => {
-                let doc = res.data[0];
-                this.setData({
-                    formName: doc.formName,
-                    doc: doc.designDoc,
-                    docid: doc._id
-                });
-            })
-        }
+        const scene = decodeURIComponent(query.scene);
+
+        console.log("signup", scene)
+        db.collection("designDocs").where({pageLinkID: scene}).get()
+        .then(res => {
+            let doc = res.data[0];
+            console.log(doc);
+            this.setData({
+                formName: doc.formName,
+                doc: doc.designDoc,
+                docid: doc._id,
+                desc: doc.formDesc
+            });
+        }).catch(err =>{
+            console.log("signup error", err);
+        })
+
     },
 
     /**
      * Lifecycle function--Called when page is initially rendered
      */
     onReady: function () {
-        console.log(this.data);
     },
 
     /**
@@ -115,9 +109,9 @@ Page({
                     console.log(res);
                     if(res.data.length > 0){
                         console.log('dup');
-                        // this.setData({
-                        //     isDuplicate: true
-                        // })
+                        this.setData({
+                            isDuplicate: true
+                        })
                     }
                 })
             })
@@ -129,6 +123,31 @@ Page({
     },
 
     onSubmit: function(e){
+
+        let doc = this.data.doc,
+            form = e.detail.value;
+
+        console.log(e.detail.value, doc);
+
+        for (let key in doc){
+            let item = doc[key];
+            if (item.phone && form[item.name].length !== 11){
+                wx.showToast({
+                    title: '电话号码格式好像不对',
+                    icon: 'none',
+                    duration: 1500
+                })
+                return;
+            } else if (item.required && form[item.name].length === 0){
+                wx.showToast({
+                    title: item.required,
+                    icon: 'none',
+                    duration: 1500
+                })
+                return;
+            }
+        }
+
         db.collection('signups').add({
             data: {
                 form: e.detail.value,
@@ -142,16 +161,4 @@ Page({
             console.log(error);
         })
     },
-
-    transferAdmin: function(){
-        db.collection('designDocs')
-            .doc(this.data.docid)
-            .update({
-                data: {ownerID: this.data.userInfo.openid}
-            }).then(res => {
-                wx.navigateTo({
-                    url: '/pages/index/index'
-                })
-            })
-    }
 })

@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
         })
 
         const uploadResult = await cloud.uploadFile({
-            cloudPath: `wxacode-${event.scene.slice(2)}.jpg`,
+            cloudPath: `wxacode-${event.page}-${event.scene.slice(2)}.jpg`,
             fileContent: wxacodeResult.buffer,
         })
 

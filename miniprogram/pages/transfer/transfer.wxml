@@ -1,2 +1,32 @@
-<!--miniprogram/pages/transfer/transfer.wxml-->
-<text>{{docid}}</text>
+<view class="container">
+
+    <!-- 登录及获取用户基本信息（主要是openID） -->
+    <view class="section">
+        <button 
+            open-type="getUserInfo" 
+            class="avatar"
+            style="background-image: url({{userInfo.avatarUrl}})"
+        ></button>
+        <block wx:if="{{!logged}}">
+            <button
+                class="login-button"
+                open-type='getUserInfo'
+                bindtap="onTappedLogin"
+                bindgetuserinfo='onReceivedUserInfo'
+            >登录</button>
+        </block>
+        <block wx:else>
+            <text>你好啊，{{userInfo.nickName}}</text>
+        </block>
+    </view>
+
+    <block wx:if="{{logged}}">
+        <text style="margin:20rpx;font-size:120%; font-weight: bold;">
+        {{formName}}
+        </text>
+        <button style="margin:20rpx;"
+        bindtap="transferAdmin">好的，这个报名归我管了</button>
+    </block>
+
+</view>
+

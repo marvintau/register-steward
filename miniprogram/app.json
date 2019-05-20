@@ -1,18 +1,18 @@
 {
-    "pages": [
-        "pages/index/index",
-        "pages/design-form/design-form",
-        "pages/manage-form/manage-form",
-        "pages/signup/signup",
-        "pages/view-form/view-form",
-        "pages/transfer/transfer"
-    ],
-    "window": {
-        "backgroundColor": "#F6F6F6",
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#F6F6F6",
-        "navigationBarTitleText": "报名好管家",
-        "navigationBarTextStyle": "black"
-    },
-    "sitemapLocation": "sitemap.json"
+  "pages": [
+    "pages/index/index",
+    "pages/design-form/design-form",
+    "pages/manage-form/manage-form",
+    "pages/signup/signup",
+    "pages/view-form/view-form",
+    "pages/transfer/transfer"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "报名好管家",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json"
 }

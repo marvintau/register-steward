@@ -10,7 +10,7 @@
             </view>
             <view class="input-group" style="width: 100%;">
                 <text class="input-label">描述</text>
-                <textarea name="formDesc" placeholder='表单描述'/>
+                <textarea maxlength='-1' name="formDesc" style="font-size:70%;" placeholder='表单描述'/>
             </view>
             <view class="input-group" style="width: 100%;">
                 <text class="input-label">报名截止日期</text>
@@ -18,7 +18,7 @@
                     mode="date"
                     value="{{expireDate}}"
                     start="2015-09-01"
-                    end="2017-09-01"
+                    end="2999-09-01"
                     bindchange="onDateChange"
                   >
                     <view class="picker">
@@ -38,21 +38,21 @@
 <block wx:else>
     <block wx:if="{{isEditingJSON}}">
         <form bindsubmit='saveEditing'>
-            <view style="margin:40rpx 0; padding-top:10rpx; border-top: 0.5rpx solid;">
+            <view style="padding-top:10rpx; border-top: 0.5rpx solid;">
                 <textarea
-                    style="flex-grow:2; width:97.5%;"
+                    style="width: 90vw; font-family: 'menlo', 'monaco', 'Droid Sans Mono', monospace;"
                     maxlength='-1'
                     name="element"
                     value="{{signups[current].memo}}"
                     placeholder='此处添加表单元素JSON'
                 />
-                <button style="margin-top: 10rpx;" form-type="submit">添加</button>
+                <button style="width: 90vw; margin-top: 10rpx;" form-type="submit">添加</button>
             </view>
         </form>
     </block>
 
     <block wx:else>
-        <view class="reg-form" wx:for="{{designDoc}}">
+        <view wx:for="{{designDoc}}">
 
             <!-- 一般的输入框 -->
             <view class="input-group" wx:if="{{item.type=='input'}}">
@@ -63,6 +63,7 @@
                     confirm-type='{{item.inputType}}'
                     placeholder='{{item.placeholder}}'
                 />
+                <text class="info-label" style="width:91vh;">{{item.desc}}</text>
             </view>
 
             <!-- Radio输入 (单选) -->
@@ -73,6 +74,7 @@
                         <label class='radio'><radio value='{{option}}' />{{option}}</label>
                     </block>
                 </radio-group>
+                <text class="info-label">{{item.desc}}</text>
             </view>
 
             <!-- checkbox输入 (多选) -->
@@ -83,6 +85,7 @@
                         <label class='checkbox'><radio value='{{option}}' />{{option}}</label>
                     </block>
                 </checkbox-group>
+                <text class="info-label">{{item.desc}}</text>
             </view>
 
             <view class="input-group desc-text" wx:else>

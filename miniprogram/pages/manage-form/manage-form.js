@@ -102,7 +102,7 @@ Page({
                     name: 'wxacode',
                     data : {
                         page: "pages/signup/signup",
-                        scene: `e=${this.data.pageLink}`
+                        scene: `${this.data.pageLink}`
                     }
                 }).then(res => {
                     return wx.cloud.getTempFileURL({
@@ -137,8 +137,8 @@ Page({
                 wx.cloud.callFunction({
                     name: 'wxacode',
                     data: {
-                        page: "pages/signup/signup",
-                        scene: `t=${this.data.pageLink}`
+                        page: "pages/transfer/transfer",
+                        scene: `${this.data.pageLink}`
                     }
                 }).then(res => {
                     console.log(res);

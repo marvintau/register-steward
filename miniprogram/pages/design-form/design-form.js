@@ -104,6 +104,13 @@ Page({
                 designDocID: res._id,
                 isFormNamed: true
             })
+
+            return db.collection('owners').add({
+                data: {
+                    docid: res._id,
+                    ownerID : this.data.userId
+                }
+            })
         })
     },
 
@@ -133,7 +140,6 @@ Page({
         db.collection('designDocs')
             .doc(this.data.designDocID).update({
                 data: {
-                    ownerID: this.data.userId,
                     pageLinkID: this.data.designDocID.slice(0, 16),
                     designDoc: Object.assign({}, this.data.designDoc),
                     isPublished: true

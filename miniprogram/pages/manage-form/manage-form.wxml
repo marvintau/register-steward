@@ -4,7 +4,7 @@
     <view class="section">
         <view style="display:block; flex-direction: column; flex-grow: 2;">
             <text class="info-label" style="display: block; font-size: 120%;">{{formName}}</text>
-            <text class="info-label" style="display: block;">{{formDesc}}</text>
+            <!-- <text class="info-label" style="display: block;">{{formDesc}}</text> -->
         </view>
         <view class="info-label" style="display:block; flex-direction: column; ">
             <text style="margin:7rpx; display: block;">当前报名总人数：{{signupAmount}} 人</text>

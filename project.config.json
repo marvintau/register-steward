@@ -43,7 +43,14 @@
 					"id": 1,
 					"name": "signup",
 					"pathName": "pages/signup/signup",
-					"query": "t=9c4488c75cd980b2",
+					"query": "scene=c0a3987b5cde62e9",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "transfer",
+					"pathName": "pages/transfer/transfer",
+					"query": "scene=9c4488c75cdcca6a",
 					"scene": null
 				}
 			]
