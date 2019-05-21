@@ -131,19 +131,36 @@ Page({
 
         for (let key in doc){
             let item = doc[key];
-            if (item.phone && form[item.name].length !== 11){
+            if (item.phone && form[item.name].length !== 11) {
                 wx.showToast({
                     title: '电话号码格式好像不对',
                     icon: 'none',
                     duration: 1500
                 })
                 return;
-            } else if (item.required && form[item.name].length === 0){
+            } else if (item.year && form[item.name].length !== 4) {
                 wx.showToast({
-                    title: item.required,
+                    title: '年份格式好像不对',
                     icon: 'none',
                     duration: 1500
                 })
+            } else if (item.required && form[item.name].length === 0){
+
+                if (item.required !== "true"){
+                    wx.showToast({
+                        title: item.required,
+                        icon: 'none',
+                        duration: 1500
+                    })
+                } else {
+                    wx.showToast({
+                        title: `${item.name}麻烦填一下`,
+                        icon: 'none',
+                        duration: 1500
+                    })
+
+                }
+
                 return;
             }
         }

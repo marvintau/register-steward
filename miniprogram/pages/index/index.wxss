@@ -66,4 +66,5 @@ page {
     margin-top: 30rpx;
     padding-bottom: 30rpx;
     border-bottom: 0.5rpx solid;
+    align-items: center;
 }

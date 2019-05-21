@@ -16,6 +16,9 @@ Page({
     onLoad: function (options) {
         db.collection('designDocs')
         .doc(options.docid).get().then(res => {
+
+            console.log(options.docid);
+
             this.setData({
                 designDoc : res.data.designDoc
             });

@@ -32,7 +32,7 @@
             <block wx:for="{{userDocs}}">
                 <view class="form-entry">
                     <view style="flex-grow: 2;">
-                        <text style="font-weight: bold; display: block;">{{item.formName}}</text>
+                        <text style="width: 60vw; font-weight: bold; display: block;">{{item.formName}}</text>
                         <!-- <text style="font-size: 80%; letter-spacing: 0.1em;">{{item.formDesc}}</text> -->
                     </view>
                     <block wx:if="{{!item.isPublished}}">

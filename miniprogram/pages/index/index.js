@@ -89,6 +89,7 @@ Page({
     onOpenPublishedSignup: function(e) {
         let userID = this.data.userInfo.openid,
             docID = e.target.dataset.docid;
+        console.log('onleaving', docID);
         wx.navigateTo({
             url: `../manage-form/manage-form?id=${userID}&docid=${docID}`,
         })

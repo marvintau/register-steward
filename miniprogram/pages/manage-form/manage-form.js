@@ -180,5 +180,18 @@ Page({
                 title: '保存图片成功！',
             })
         })
+    },
+
+    exportExcel: function(){
+
+        wx.cloud.callFunction({
+            name: 'export-xlsx',
+            data: {
+                docid: this.data.docid
+            }
+        }).then(res => {
+            console.log(res);
+        })
+
     }
 })

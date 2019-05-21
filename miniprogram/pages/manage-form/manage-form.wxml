@@ -25,14 +25,14 @@
     <text wx:else>二维码已保存</text>
     </block>
     <button style="margin: 30rpx 0; width: 96%;"bindtap="generateTransferLink">
-        <text wx:if="{{!isShowTransCode}}"> 管理员转让 </text>
+        <text wx:if="{{!isShowTransCode}}"> 邀请管理员 </text>
         <text wx:else> 收起小程序码 </text>
     </button>
     <block wx:if="{{isShowTransCode}}">
     <image src="{{transfercode}}"
         style="width:400rpx; height:400rpx;" />
     </block>
-    <button style="margin: 30rpx 0; width: 96%;"bindtap="export">
+    <button style="margin: 30rpx 0; width: 96%;"bindtap="exportExcel">
         <text>导出Excel表格</text>
         <text style="font-size:60%"> (正在紧张开发中)</text>
     </button>

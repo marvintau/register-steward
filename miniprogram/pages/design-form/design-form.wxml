@@ -88,7 +88,19 @@
                 <text class="info-label">{{item.desc}}</text>
             </view>
 
-            <view class="input-group desc-text" wx:else>
+            <!-- textarea输入（较长的文字输入） -->
+            <view class="input-group" wx:elif="{{item.type=='textarea'}}">
+                <text class="input-label">{{item.label}}</text>
+                <textarea
+                    style="width: 90vw; font-family: 'menlo', 'monaco', 'Droid Sans Mono', monospace;"
+                    maxlength='-1'
+                    name="{{item.name}}"
+                    placeholder='{{item.placeholder}}'
+                />
+                <text class="info-label">{{item.desc}}</text>
+            </view>
+
+            <view class="input-group desc-text" style='margin-top : 30rpx; margin-bottom: 0;' wx:else>
                 <text>{{item}}</text>
             </view>
         </view>
